@@ -173,7 +173,7 @@ differences with age structure. Treat it as the context for the prescribing anal
 with no GP registration record (1,590, mostly non-GP prescribers and closed practices) carry 0.4% of items; 54 practices
 had no QOF diabetes register, 17 had under 1,000 patients and 1 had fewer than 20 people with diabetes.
 
-**By deprivation quintile** (1 = most deprived; [`outputs/results/by_deprivation_quintile.csv`](outputs/results/by_deprivation_quintile.csv)):
+**By deprivation quintile** (1 = most deprived; (outputs/results/by_deprivation_quintile.csv)):
 
 | Quintile | Practices | Newer-drug share of non-insulin items | Diabetes items per register patient |
 |---|---|---|---|
