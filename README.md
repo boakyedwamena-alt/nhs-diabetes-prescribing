@@ -175,6 +175,10 @@ had no QOF diabetes register, 17 had under 1,000 patients and 1 had fewer than 2
 
 **By deprivation quintile** (1 = most deprived; `outputs/results/by_deprivation_quintile.csv`):
 
+
+By deprivation quintile (1 = most deprived; [`outputs/results/by_deprivation_quintile.csv`](outputs/results/by_deprivation_quintile.csv)):
+
+
 | Quintile | Practices | Newer-drug share of non-insulin items | Diabetes items per register patient |
 |---|---|---|---|
 | 1 (most deprived) | 1,250 | 24.3% | 16.9 |
@@ -208,6 +212,9 @@ high outliers are concentrated in Mid and South Essex (9), Hampshire and Isle of
 Lancashire and South Cumbria (6); low outliers in West Yorkshire (14), North East London (14), North East and North Cumbria (7)
 and South East London (5). That points to ICB-level or local factors such as formularies, guidance or population mix, but
 these data cannot say which. The full list is in `outputs/results/funnel_flags.csv`.
+
+[`outputs/results/funnel_flags.csv`](outputs/results/funnel_flags.csv)):
+
 
 ![Funnel plot](outputs/figures/02_funnel_plot.png)
 
