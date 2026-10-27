@@ -87,7 +87,7 @@ practice x month x drug class, plus a 12-month practice table, an ICB summary an
   Excluded practices are counted and reported, not hidden.
 * **Models:** a binomial GLM on newer vs other non-insulin items with ICB-clustered robust standard errors,
   adjusted for prevalence, list size and NHS region; an OLS model on log items per register patient; and a one-way ANOVA intraclass correlation, with a bootstrap that resamples ICBs for the 95% interval, giving the share of variance
-  sitting between ICBs before and after adjustment (a mixed model was tried first but did not converge; see `docs/ISSUES_AND_FIXES.md`).
+  sitting between ICBs before and after adjustment (a mixed model was tried first but did not converge; see [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md).
 * **Funnel plot:** overdispersion-adjusted limits (Spiegelhalter) around the national share, flagging practices
   beyond 99.8% limits. Overdispersion is expected, so unadjusted limits would flag most practices.
 
