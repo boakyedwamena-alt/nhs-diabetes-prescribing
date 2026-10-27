@@ -189,10 +189,7 @@ The smoothed trend falls from about 27% in the least deprived practices to about
 flattens. So the average association in the models below is driven mainly by the less-to-moderately deprived end, and the
 models, which assume a constant effect, summarise it with one number.
 
-**Models** (`outputs/results/results.json`; standard errors clustered by ICB):
-
-
-([`outputs/results/results.json`](outputs/results/results.json); standard errors clustered by ICB)):
+**Models** ([`outputs/results/results.json`](outputs/results/results.json); standard errors clustered by ICB):
 
 | Question | Result |
 |---|---|
