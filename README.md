@@ -173,7 +173,7 @@ differences with age structure. Treat it as the context for the prescribing anal
 with no GP registration record (1,590, mostly non-GP prescribers and closed practices) carry 0.4% of items; 54 practices
 had no QOF diabetes register, 17 had under 1,000 patients and 1 had fewer than 20 people with diabetes.
 
-**By deprivation quintile** (1 = most deprived; (outputs/results/by_deprivation_quintile.csv)):
+**By deprivation quintile** (1 = most deprived; [`outputs/results/by_deprivation_quintile.csv`](outputs/results/by_deprivation_quintile.csv)):
 
 | Quintile | Practices | Newer-drug share of non-insulin items | Diabetes items per register patient |
 |---|---|---|---|
@@ -191,6 +191,9 @@ models, which assume a constant effect, summarise it with one number.
 
 **Models** (`outputs/results/results.json`; standard errors clustered by ICB):
 
+
+([`outputs/results/results.json`](outputs/results/results.json); standard errors clustered by ICB)):
+
 | Question | Result |
 |---|---|
 | Odds of a newer-drug item per 10 IMD points, adjusted | OR 0.97 (95% CI 0.96 to 0.99, p < 0.001) |
@@ -207,10 +210,7 @@ outside the 99.8% limits: 83 above and 54 below the national share. Practices ar
 high outliers are concentrated in Mid and South Essex (9), Hampshire and Isle of Wight (8), Kent and Medway (6) and
 Lancashire and South Cumbria (6); low outliers in West Yorkshire (14), North East London (14), North East and North Cumbria (7)
 and South East London (5). That points to ICB-level or local factors such as formularies, guidance or population mix, but
-these data cannot say which. The full list is in `outputs/results/funnel_flags.csv`.
-
-[`outputs/results/funnel_flags.csv`](outputs/results/funnel_flags.csv)):
-
+these data cannot say which. The full list is in [`outputs/results/funnel_flags.csv`](outputs/results/funnel_flags.csv).
 
 ![Funnel plot](outputs/figures/02_funnel_plot.png)
 
