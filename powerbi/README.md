@@ -152,7 +152,34 @@ The report is saved as `diabetes_prescribing_dashboard.pbix`, with a PDF export 
 Publish to web makes the report open to anyone with the link and cannot be restricted afterwards; the data are public aggregates. It needs a work or school account, otherwise share the PDF and screenshots.
 The four CSV files are loaded from a neutral local folder (`C:\nhs-diabetes\dashboard\`) rather than a personal user folder, so the saved .pbix does not embed local folder names and can be re-pointed with Home > Transform data > Data source settings > Change Source.
 
-## 9. Reference values (checked against the data)
+## 9. Display names
+
+Labels were renamed in the visuals only (Rename for this visual). The model, DAX and CSV files keep the original names.
+
+| Where | Field in the model | Label shown |
+|---|---|---|
+| Overview cards | `_Measures[Newer Share]` | Newer-drug share |
+| Overview cards | `_Measures[Patients]` | Registered patients |
+| Overview cards | `_Measures[Deprivation Gap (pp)]` | Gap, least vs most deprived (points) |
+| Geography, ICB context table | `dashboard_icb[icb_short]` | ICB |
+| Geography, ICB context table | `dashboard_icb[practices]` | Practices |
+| Geography, ICB context table | `dashboard_icb[mean_imd_score]` | Mean IMD |
+| Geography, ICB context table | `dashboard_icb[crude_prevalence_pct]` | Prevalence % |
+| Practices table | `dashboard_practice[practice_code]` | Practice code |
+| Practices table | `dashboard_practice[practice_name]` | Practice |
+| Practices table | `dashboard_practice[icb_short]` | ICB |
+| Practices table | `dashboard_practice[region]` | Region |
+| Practices table | `dashboard_practice[list_size]` | Registered patients |
+| Practices table | `dashboard_practice[imd_score]` | Deprivation (IMD) |
+| Practices table | `dashboard_practice[newer_share]` | Newer-drug share |
+| Practices table | `dashboard_practice[items_per_register_patient]` | Diabetes items per register patient |
+| Practices table | `dashboard_practice[outlier_status]` | Outlier status |
+| Slicers | `dashboard_icb[icb_short]`, `dashboard_icb[region]` | ICB, Region |
+| Slicers | `dashboard_practice[practice_name]`, `dashboard_practice[outlier_status]` | Practice, Outlier status |
+
+"Registered patients" appears twice with different scope: on the Overview card it is the sum of list size across the filtered practices, and in the Practices table it is one practice's list size.
+
+## 10. Reference values (checked against the data)
 | Check | Expected |
 |---|---|
 | Practices / Patients | 6,248 / 63.0 million (63,003,275) |
@@ -171,7 +198,7 @@ The four CSV files are loaded from a neutral local folder (`C:\nhs-diabetes\dash
 
 If a number differs, check the relationship in step 3, the filters on the visual, and the measure's number format first.
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 | Symptom | Fix |
 |---|---|
 | Trend chart axis shows only 2023 and 2024, subtitle says "by Year" | In the X-axis bucket, click the arrow beside `month_start` and choose `month_start`, not Date Hierarchy. The gap chart should then read 2.3 and 3.4 |
