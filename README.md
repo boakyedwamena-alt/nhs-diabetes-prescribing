@@ -3,7 +3,7 @@
 **Question:** Does the prescribing of newer diabetes drugs (SGLT2 inhibitors and GLP-1 / GIP agonists) vary across
 GP practices and Integrated Care Boards (ICBs) in ways that practice deprivation and diabetes prevalence do not explain?
 
-**In plain English:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs
+**At a glance:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs
 (24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. Differences between
 areas (ICB averages from 19.6% to 30.3%) and between individual practices were much wider than that deprivation gap, and the gap widened
 over the year. These are practice-level patterns from public data. They do not show that any patient received worse care.
@@ -33,6 +33,8 @@ over the year. These are practice-level patterns from public data. They do not s
 |---|---|
 | **Newer drugs** | SGLT2 inhibitors and GLP-1 / GIP agonists, two classes of diabetes medicine recommended for people with cardiovascular, kidney or obesity-related risk |
 | **Newer-drug share** | Newer-drug items as a percentage of all non-insulin diabetes items a practice prescribed |
+| **Diabetes items per patient** | Diabetes prescription items (BNF section 6.1, including insulin) issued in 12 months, divided by the number of patients on the practice's diabetes register. An overall measure of prescribing volume, separate from the drug mix |
+| **Diabetes register** | The patients a practice has recorded as having diabetes, from the Quality and Outcomes Framework (QOF) prevalence data. It is smaller than the practice list |
 | **ICB** | Integrated Care Board: the NHS organisation that plans and funds local services. There are 42 in England |
 | **IMD** | Index of Multiple Deprivation 2019, an official measure of how deprived a small area is. A higher score means more deprived. A practice's score is the average across its patients' home areas |
 | **LSOA** | Lower layer Super Output Area: a small census area of roughly 1,500 people, the unit at which IMD is published |
