@@ -4,9 +4,10 @@
 GP practices and Integrated Care Boards (ICBs) in ways that practice deprivation and diabetes prevalence do not explain?
 
 **At a glance:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs
-(24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. Differences between
-areas (ICB averages from 19.6% to 30.3%) and between individual practices were much wider than that deprivation gap, and the gap widened
-over the year. These are practice-level patterns from public data. They do not show that any patient received worse care.
+(24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. 
+Differences between
+areas (ICB averages from 19.6% to 30.3%, unadjusted) and between individual practices were wider than that deprivation gap, although
+extremes and group averages are not directly comparable, and the gap widened over the year. These are practice-level patterns from public data. They do not show that any patient received worse care.
 
 `PostgreSQL` `Python` `statsmodels` `Power BI` `GitHub Actions`
 
@@ -21,7 +22,8 @@ over the year. These are practice-level patterns from public data. They do not s
   fifth versus 14.2 in the least deprived**.
 * Practices vary far more than chance explains (overdispersion factor 89), and about **one sixth of the variation sits
   between ICBs** (16%, 95% CI 10% to 22%, after adjustment), which deprivation barely changes.
-* ICB averages range from **19.6% to 30.3%**, a far wider spread than the 2.8-point gap between deprivation fifths (unadjusted).
+* ICB averages range from **19.6% to 30.3%** (unadjusted). This compares the two most extreme of 42 ICBs with the gap between
+  group averages, so it is not like-for-like. The adjusted ICC above is the better measure of variation between ICBs.
 * The gap between the most and least deprived fifths **widened over the year** (2.3 to 3.4 points), because newer drugs grew faster where
   deprivation was lowest.
 
@@ -52,7 +54,7 @@ This project measures both, using public data only.
 ## Data (all free and open)
 | Source | Used for |
 |---|---|
-| NHSBSA English Prescribing Dataset (EPD) with SNOMED code, BNF 6.1, Apr 2023 to Mar 2024 | items and cost by practice, month and drug |
+| NHSBSA English Prescribing Dataset (EPD) with SNOMED code, BNF 6.1, Apr 2023 to Mar 2024 | items by practice, month and drug (cost is loaded but not analysed) |
 | NHS England Digital: patients registered at GP practices by LSOA | list size and practice deprivation (via patient-weighted LSOA scores) |
 | NHS England Digital: QOF 2023-24 diabetes register | diabetes prevalence |
 | English Indices of Deprivation 2019 (IMD) | deprivation score per LSOA |
@@ -89,7 +91,7 @@ practice x month x drug class, plus a 12-month practice table, an ICB summary an
   Excluded practices are counted and reported, not hidden.
 * **Models:** a binomial GLM on newer vs other non-insulin items with ICB-clustered robust standard errors,
   adjusted for prevalence, list size and NHS region; an OLS model on log items per register patient; and a one-way ANOVA intraclass correlation, with a bootstrap that resamples ICBs for the 95% interval, giving the share of variance
-  sitting between ICBs before and after adjustment (a mixed model was tried first but did not converge; see [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md).
+  sitting between ICBs before and after adjustment (a mixed model was tried first but did not converge; see [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md)).
 * **Funnel plot:** overdispersion-adjusted limits (Spiegelhalter) around the national share, flagging practices
   beyond 99.8% limits. Overdispersion is expected, so unadjusted limits would flag most practices.
 
