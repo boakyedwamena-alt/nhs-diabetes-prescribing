@@ -39,10 +39,9 @@ GP practices and Integrated Care Boards (ICBs) in ways that practice deprivation
 | **ICC** | Intraclass correlation: the share of variation that lies between ICBs and not between practices within the same ICB |
 
 ## Why this matters
-NICE and the NHS encourage SGLT2 inhibitors and GLP-1 agonists for people with type 2 diabetes who
-have cardiovascular, kidney or obesity-related risk. If uptake is lower where deprivation is higher, that is a
-potential inequality; if it varies widely between ICBs after adjustment, that is unwarranted variation worth examining.
-This project measures both, using public data only.
+NICE guidance on type 2 diabetes in adults ([NG28](https://www.nice.org.uk/guidance/ng28)) recommended SGLT2 inhibitors for some adults with chronic kidney disease (November 2021 update) and, from its February 2022 drug-treatment update, that an SGLT2 inhibitor be offered to people with established atherosclerotic cardiovascular disease or chronic heart failure and considered for people at high cardiovascular risk ([update information](https://www.nice.org.uk/guidance/ng28/chapter/Update-information)). GLP-1 receptor agonists were limited to later triple therapy in specific circumstances, including some people with obesity. These recommendations applied throughout the study window; NICE issued a further medicines update in February 2026.
+
+NICE's [implementation advice on health inequalities](https://www.nice.org.uk/guidance/ng28/resources/implementation-advice-health-inequalities-in-type-2-diabetes-15609044701) names deprivation as a source of inequality and recommends monitoring uptake across population groups. If uptake is lower where deprivation is higher, that is a potential inequality; if it varies widely between ICBs after adjustment for deprivation, prevalence and practice size, that is variation worth examining. This project measures both, using public data only. It cannot say whether any variation is unwarranted, because clinical eligibility data (kidney function, cardiovascular disease, BMI) are not available.
 
 ## Data (all free and open)
 | Source | Used for |
@@ -263,6 +262,7 @@ formularies, guidance, shared-care pathways with specialist clinics, and supply 
 * **No age adjustment.** The data have no age breakdown, so prevalence is crude and deprivation may partly stand in for age structure.
 * **Off-label and weight-loss use.** During the 2023-24 GLP-1 shortage some diabetes-licensed GLP-1 and GIP products were prescribed off-label for
   weight loss. The data cannot separate these items from use in diabetes, so the GLP-1/GIP share may be overstated in some practices.
+* **Guidance changed after the study window.** NICE issued a medicines update to NG28 in February 2026. These results describe prescribing in 2023-24 under the February 2022 drug-treatment recommendations and should not be read as a comparison with current guidance.
 * **Newer drugs are not always better drugs for every patient.** The share is a measure of uptake, not of appropriateness.
 * **Funnel outliers are unusual, not "bad".** Coding, shared-care arrangements and specialist clinics can explain them.
 * **Scope of the prescribing data.** The EPD excludes medicines supplied under Patient Group Directions and dental prescribing, and
