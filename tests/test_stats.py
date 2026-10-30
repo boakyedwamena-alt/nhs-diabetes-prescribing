@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.stats import flag_practices, funnel_limits, overdispersion_factor
-
+from src.stats import flag_practices, funnel_limits, icc_anova, overdispersion_factor
 
 def test_limits_narrow_as_n_grows():
     lo, hi = funnel_limits(0.2, np.array([100, 10000]), 1.0, 3.09)
@@ -25,3 +24,17 @@ def test_obvious_outlier_flagged():
     out, p0, phi = flag_practices(df, "events", "trials")
     assert out.iloc[0]["funnel_flag"].startswith("High outlier")
     assert 0.19 < p0 < 0.22
+
+
+def test_icc_recovers_known_value():
+    rng = np.random.default_rng(0)
+    k, m = 200, 30
+    g = np.repeat(np.arange(k), m)
+    y = rng.normal(0, 1, k)[g] + rng.normal(0, 1, k * m)  # true ICC = 0.5
+    assert abs(icc_anova(y, g) - 0.5) < 0.1
+
+
+def test_icc_near_zero_without_group_effect():
+    rng = np.random.default_rng(2)
+    g = np.repeat(np.arange(100), 20)
+    assert icc_anova(rng.normal(size=2000), g) < 0.05
