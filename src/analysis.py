@@ -16,7 +16,7 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 
 from src.config import FIG_DIR, OUTPUT_DIR
 from src.db import get_engine
-from src.stats import flag_practices
+from src.stats import flag_practices, icc_anova
 
 plt.rcParams.update({"figure.dpi": 130, "axes.spines.top": False, "axes.spines.right": False})
 RES = OUTPUT_DIR / "results"
@@ -60,20 +60,6 @@ def volume_model(df: pd.DataFrame) -> dict:
     return {"pct_change_items_per_patient_per_10_imd": float((np.exp(fit.params["imd_per10"]) - 1) * 100),
             "ci_low_pct": float((np.exp(ci[0]) - 1) * 100), "ci_high_pct": float((np.exp(ci[1]) - 1) * 100),
             "p_value": float(fit.pvalues["imd_per10"]), "r_squared": float(fit.rsquared)}
-
-
-def icc_anova(y: np.ndarray, g: np.ndarray) -> float:
-    """Intraclass correlation from a one-way ANOVA: the share of variance lying between groups (ICBs).
-    Always converges, unlike a mixed model; unbalanced group sizes are handled through n0."""
-    d = pd.DataFrame({"y": y, "g": g})
-    grp = d.groupby("g")["y"]
-    n, means = grp.size(), grp.mean()
-    k, N, grand = len(n), n.sum(), d["y"].mean()
-    msb = (n * (means - grand) ** 2).sum() / (k - 1)
-    msw = ((d["y"] - d["g"].map(means)) ** 2).sum() / (N - k)
-    n0 = (N - (n ** 2).sum() / N) / (k - 1)
-    var_b = max((msb - msw) / n0, 0.0)
-    return float(var_b / (var_b + msw))
 
 
 def icb_variation(df: pd.DataFrame, n_boot: int = 500, seed: int = 1) -> dict:
