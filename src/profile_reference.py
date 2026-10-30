@@ -48,6 +48,8 @@ def main() -> None:
         "practices_with_qof_diabetes_register": int(d.register.notna().sum()),
         "practices_included": int(len(inc)),
         "excluded_no_qof_or_small": int(len(d) - len(inc)),
+        "excluded_no_qof_record": int(d.register.isna().sum()),
+        "excluded_other_size_or_imd": int(len(d) - len(inc) - d.register.isna().sum()),
         "median_imd_coverage": float(d.imd_coverage.median()),
         "practices_imd_coverage_below_95pct": int((d.imd_coverage < 0.95).sum()),
         "national_crude_prevalence_pct_included": float(100 * inc.register.sum() / inc.qof_list_size.sum()),
