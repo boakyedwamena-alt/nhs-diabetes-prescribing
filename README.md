@@ -1,5 +1,7 @@
 # Diabetes Prescribing and Health Inequalities in England
 
+![CI](https://github.com/boakyedwamena-alt/nhs-diabetes-prescribing/actions/workflows/ci.yml/badge.svg)
+
 **Question:** Does the prescribing of newer diabetes drugs (SGLT2 inhibitors and GLP-1 / GIP agonists) vary across
 GP practices and Integrated Care Boards (ICBs) in ways that practice deprivation and diabetes prevalence do not explain?
 
