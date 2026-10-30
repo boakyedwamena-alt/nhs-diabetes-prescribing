@@ -1,4 +1,4 @@
-"""Funnel-plot helpers (Spiegelhalter 2005, overdispersed proportions)."""
+"""Statistics helpers: funnel-plot limits (Spiegelhalter 2005, overdispersed proportions) and the ANOVA intraclass correlation."""
 import numpy as np
 import pandas as pd
 
@@ -32,3 +32,18 @@ def flag_practices(df: pd.DataFrame, events: str, trials: str) -> tuple[pd.DataF
                         np.where(d["p"] > d["hi_95"], "High (95%)",
                         np.where(d["p"] < d["lo_95"], "Low (95%)", "Within limits"))))
     return d, float(p0), phi
+
+
+def icc_anova(y: np.ndarray, g: np.ndarray) -> float:
+    """Intraclass correlation from a one-way ANOVA: the share of variance lying between groups (ICBs).
+    Needs no iterative fit, unlike a mixed model; unbalanced group sizes are handled through n0.
+    The between-group variance is floored at zero."""
+    d = pd.DataFrame({"y": y, "g": g})
+    grp = d.groupby("g")["y"]
+    n, means = grp.size(), grp.mean()
+    k, N, grand = len(n), n.sum(), d["y"].mean()
+    msb = (n * (means - grand) ** 2).sum() / (k - 1)
+    msw = ((d["y"] - d["g"].map(means)) ** 2).sum() / (N - k)
+    n0 = (N - (n ** 2).sum() / N) / (k - 1)
+    var_b = max((msb - msw) / n0, 0.0)
+    return float(var_b / (var_b + msw))
