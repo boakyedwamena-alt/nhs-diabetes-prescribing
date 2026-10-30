@@ -1,6 +1,6 @@
 # Data sources and file layout
 
-All four are free and open (Open Government Licence). Links were checked on 17 October 2026.
+All four are free and open (Open Government Licence). Links were checked on 17 October 2026 and licence terms on 22 October 2026.
 
 ## Study window (chosen so the sources line up)
 * **Prescribing:** April 2023 to March 2024 (12 months)
@@ -10,12 +10,12 @@ All four are free and open (Open Government Licence). Links were checked on 17 O
 
 Reason for this window: from July 2024 NHS England's GP LSOA files switched to 2021 LSOA codes, but IMD 2019
 uses 2011 LSOA codes. The January 2024 extract is the last era that matches IMD 2019 cleanly, and
-`python -m src.checks` (or `make checks`) fails if fewer than 95% of patients match.
+`python -m src.checks` (or `make checks`) fails if the median practice has under 95% of its patients matched to an IMD score.
 
 ## 1. Prescribing: NHSBSA English Prescribing Dataset (EPD) with SNOMED code
 * Dataset page: https://opendata.nhsbsa.net/dataset/english-prescribing-dataset-epd-with-snomed-code
 * Files are named `epd_snomed_YYYYMM.csv`, about 17 million rows per month, so they are not downloaded by hand.
-* `python -m src.download_epd` streams each month and keeps only diabetes rows (BNF 0601). It writes `data/raw/epd/epd_YYYYMM.csv` and skips months already present.
+* `python -m src.download_epd` streams each month and keeps only diabetes rows (BNF 0601). Staging then filters these to insulins (060101) and antidiabetic drugs (060102). It writes `data/raw/epd/epd_YYYYMM.csv` and skips months already present.
 * The older "EPD" without SNOMED codes is **retired** (it covers Jan 2014 to Jun 2025), so the SNOMED version is used.
 * Direct links for the window (pattern `.../906115a6-4155-44be-8b81-f8e83cebfb84/resource/<id>/download/epd_snomed_YYYYMM.csv`):
   the ids are in `RESOURCES` inside `src/download_epd.py`.
@@ -45,6 +45,8 @@ uses 2011 LSOA codes. The January 2024 extract is the last era that matches IMD 
   columns are `PRACTICE_CODE, GROUP_CODE, REGISTER, PATIENT_LIST_TYPE, PRACTICE_LIST_SIZE`; the loader keeps
   `GROUP_CODE = DM`, which gives 6,267 practices, one row each, all with list type `17OV` (patients aged 17+).
 * The other files in the zip (achievement by region, indicator and geography mappings) are not needed.
+
+All 6,267 practices in the QOF diabetes file also appear in the GP registration file; 58 GP-file practices have no QOF record.
 
 ## 4. Deprivation: English Indices of Deprivation 2019, File 7
 * Page: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
