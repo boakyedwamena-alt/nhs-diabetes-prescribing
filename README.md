@@ -159,6 +159,7 @@ score was available for almost every patient (median practice coverage 99.98%). 
 | 3 | 1,250 | 7.63% |
 | 4 | 1,249 | 7.23% |
 | 5 (least deprived) | 1,250 | 6.42% |
+
 Quintiles here are cut in pandas on practice rank and cover every GP-file practice that meets the inclusion rules. Part 2 uses SQL NTILE on practices that also have diabetes prescribing data, so group sizes and a few memberships differ slightly.
 
 Practice-level rank correlation between deprivation and prevalence is 0.51 (Spearman). These are **crude** rates:
@@ -194,7 +195,7 @@ models, which assume a constant effect, summarise it with one number.
 | Diabetes items per register patient per 10 IMD points, adjusted | +4.3% (95% CI 2.0% to 6.6%) |
 | Share of practice-level variance in newer-drug share lying between ICBs | 17.5% (95% CI 11.6% to 23.5%) unadjusted; 16.1% (10.0% to 21.8%) after adjusting for deprivation, prevalence and list size |
 
-Across the roughly 32-point gap in mean IMD score between the most and least deprived fifths, the odds ratio compounds to
+Across the 31.8-point gap in mean IMD score between the most and least deprived fifths (41.6 against 9.8, from the Part 1 table), the odds ratio compounds to
 about 0.91 (my arithmetic from the per-10-point estimate, not a separate model). The volume result means practices in
 deprived areas issued more diabetes items per patient with diabetes, which could reflect more complex disease or more
 drugs per person, and is not evidence of better or worse care.
@@ -204,7 +205,7 @@ outside the 99.8% limits: 83 above and 54 below the national share. Practices ar
 high outliers are concentrated in Mid and South Essex (9), Hampshire and Isle of Wight (8), Kent and Medway (6) and
 Lancashire and South Cumbria (6); low outliers in West Yorkshire (14), North East London (14), North East and North Cumbria (7)
 and South East London (5). That points to ICB-level or local factors such as formularies, guidance or population mix, but
-these data cannot say which. The full list is in [`outputs/results/funnel_flags.csv`](outputs/results/funnel_flags.csv).
+these data cannot say which. Clusters are not always one-directional: West Yorkshire has 14 low outliers and 3 high ones, which suggests wide variation between practices as well as an ICB-level effect. The full list is in [`outputs/results/funnel_flags.csv`](outputs/results/funnel_flags.csv).
 
 ![Funnel plot](outputs/figures/02_funnel_plot.png)
 
