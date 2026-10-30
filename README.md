@@ -3,11 +3,7 @@
 **Question:** Does the prescribing of newer diabetes drugs (SGLT2 inhibitors and GLP-1 / GIP agonists) vary across
 GP practices and Integrated Care Boards (ICBs) in ways that practice deprivation and diabetes prevalence do not explain?
 
-**At a glance:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs
-(24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. 
-Differences between
-areas (ICB averages from 19.6% to 30.3%, unadjusted) and between individual practices were wider than that deprivation gap, although
-extremes and group averages are not directly comparable, and the gap widened over the year. These are practice-level patterns from public data. They do not show that any patient received worse care.
+**At a glance:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs (24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. Differences between areas (ICB averages from 19.6% to 30.3%, unadjusted) and between individual practices were larger than that deprivation gap, although extremes and group averages are not directly comparable. The gap widened over the year (2.3 points in April 2023 to 3.4 in March 2024). These are practice-level patterns from public data. They do not show that any patient received worse care.
 
 `PostgreSQL` `Python` `statsmodels` `Power BI` `GitHub Actions`
 
@@ -20,12 +16,9 @@ extremes and group averages are not directly comparable, and the gap widened ove
   associated with **3% lower odds** of a newer-drug item (odds ratio 0.97, 95% CI 0.96 to 0.99). Real, but modest.
 * Overall prescribing volume went the other way: **16.9 diabetes items per patient on the register in the most deprived
   fifth versus 14.2 in the least deprived**.
-* Practices vary far more than chance explains (overdispersion factor 89), and about **one sixth of the variation sits
-  between ICBs** (16%, 95% CI 10% to 22%, after adjustment), which deprivation barely changes.
-* ICB averages range from **19.6% to 30.3%** (unadjusted). This compares the two most extreme of 42 ICBs with the gap between
-  group averages, so it is not like-for-like. The adjusted ICC above is the better measure of variation between ICBs.
-* The gap between the most and least deprived fifths **widened over the year** (2.3 to 3.4 points), because newer drugs grew faster where
-  deprivation was lowest.
+* Practices vary far more than chance alone would give (overdispersion factor 89, which also reflects repeat prescribing), and about **one sixth of the variation sits between ICBs** (16%, 95% CI 10% to 22%, after adjusting for deprivation, prevalence and list size; NHS region is not adjusted for), which deprivation barely changes.
+* ICB averages range from **19.6% to 30.3%** (unadjusted), against a 2.8-point gap between deprivation fifths. This compares the two most extreme of 42 ICBs with the gap between group averages, so it is not like-for-like; the adjusted ICC above is the better measure of variation between ICBs.
+* The gap between the most and least deprived fifths **widened over the year** (2.3 points in April 2023 to 3.4 in March 2024, comparing single months), because newer drugs grew faster where deprivation was lowest.
 
 ![Overview page of the Power BI dashboard: newer-drug share and items per patient by practice deprivation fifth, and the mix of non-insulin diabetes drugs](docs/dashboard_overview.png)
 *The Overview page of the Power BI dashboard. All five pages are shown in the [Dashboard](#dashboard) section.*
@@ -35,7 +28,7 @@ extremes and group averages are not directly comparable, and the gap widened ove
 |---|---|
 | **Newer drugs** | SGLT2 inhibitors and GLP-1 / GIP agonists, two classes of diabetes medicine recommended for people with cardiovascular, kidney or obesity-related risk |
 | **Newer-drug share** | Newer-drug items as a percentage of all non-insulin diabetes items a practice prescribed |
-| **Diabetes items per patient** | Diabetes prescription items (BNF section 6.1, including insulin) issued in 12 months, divided by the number of patients on the practice's diabetes register. An overall measure of prescribing volume, separate from the drug mix |
+| **Diabetes items per patient** | Diabetes prescription items (insulins and antidiabetic drugs, BNF 060101 and 060102) issued in 12 months, divided by the number of patients on the practice's diabetes register. An overall measure of prescribing volume, separate from the drug mix |
 | **Diabetes register** | The patients a practice has recorded as having diabetes, from the Quality and Outcomes Framework (QOF) prevalence data. It is smaller than the practice list |
 | **ICB** | Integrated Care Board: the NHS organisation that plans and funds local services. There are 42 in England |
 | **IMD** | Index of Multiple Deprivation 2019, an official measure of how deprived a small area is. A higher score means more deprived. A practice's score is the average across its patients' home areas |
@@ -85,15 +78,16 @@ practice x month x drug class, plus a 12-month practice table, an ICB summary an
 ## Methods
 * **Outcome:** newer-drug share = SGLT2 + GLP-1/GIP items as a share of non-insulin diabetes items, latest 12 months.
   Also items per diabetes-register patient, as an overall volume measure.
+* **Drug classes:** the class comes from the BNF code of the chemical substance: section 060101x is insulin, 0601021 sulfonylureas and 0601022 metformin. Within 0601023 (other antidiabetic drugs) it comes from matching generic and brand names in the product descriptions (for example dapagliflozin or Forxiga, semaglutide or Ozempic, tirzepatide or Mounjaro). Where a product matches more than one name, the most specific class wins (GLP-1 / GIP agonist, then SGLT2 inhibitor, then DPP-4 inhibitor), so dapagliflozin with metformin counts as an SGLT2 inhibitor. Only products in section 0601023 can be flagged as newer drugs. The non-insulin denominator is every other class (metformin, sulfonylureas, DPP-4 inhibitors, pioglitazone, other, unclassified). The name list is maintained by hand, so a new brand-only product would stay unclassified until added; the checks fail if unclassified items reach 0.5%. One substance (Avandamet, about 1 item in 61 million) is unclassified.  
 * **Deprivation:** patient-weighted mean IMD 2019 score across the LSOAs a practice's patients live in.
   Quintile 1 = most deprived fifth of included practices.
 * **Inclusion:** list size at least 1,000; diabetes register at least 20; deprivation and prevalence available.
   Excluded practices are counted and reported, not hidden.
-* **Models:** a binomial GLM on newer vs other non-insulin items with ICB-clustered robust standard errors,
-  adjusted for prevalence, list size and NHS region; an OLS model on log items per register patient; and a one-way ANOVA intraclass correlation, with a bootstrap that resamples ICBs for the 95% interval, giving the share of variance
-  sitting between ICBs before and after adjustment (a mixed model was tried first but did not converge; see [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md)).
-* **Funnel plot:** overdispersion-adjusted limits (Spiegelhalter) around the national share, flagging practices
-  beyond 99.8% limits. Overdispersion is expected, so unadjusted limits would flag most practices.
+* **Models:**
+  * **Newer-drug share:** a binomial GLM on newer vs other non-insulin items, with ICB-clustered robust standard errors, adjusted for diabetes prevalence, log list size and NHS region.
+  * **Volume:** an OLS model on log items per register patient, with the same adjustment and clustering.
+  * **Variation between ICBs:** a one-way ANOVA intraclass correlation (ICC) on each practice's newer-drug share, unweighted and floored at zero. The adjusted version uses the residuals from a linear (OLS) fit on deprivation, prevalence and list size. It does not adjust for region, so it includes differences between NHS regions. The 95% interval is a percentile bootstrap that resamples ICBs (500 resamples, fixed seed). A mixed model was tried first but did not converge; see [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md).
+* **Funnel plot:** overdispersion-adjusted limits (Spiegelhalter 2005, *Statistics in Medicine* 24:1185-1202) around the national share. The overdispersion factor is the mean of squared z-scores, winsorised at the 10th and 90th percentiles and floored at 1, and it widens the limits by the same multiple at every practice size. Practices outside the 99.8% limits are flagged as outliers (the 137 reported); the 95% limits are also stored for the dashboard. Overdispersion is expected, so unadjusted limits would flag most practices.
 
 ## Run it
 Works on Windows, macOS and Linux. It needs Python 3.12, Docker (Docker Desktop on Windows or macOS, Docker Engine on Linux) and about 15 GB of free disk space for the
@@ -156,7 +150,7 @@ building this and how they were solved. Common ones: activate the virtual enviro
 ### Part 1: deprivation and diabetes prevalence (real data, QOF 2023-24)
 Run with `make profile`, or on any system `python -m src.ingest --source data/raw --reference-only` followed by `python -m src.profile_reference`. After excluding practices with fewer than 1,000 registered patients, fewer than 20 people on
 the diabetes register, or no QOF record, **6,248 of 6,325 practices** are included. The patient-weighted deprivation
-score was available for almost every patient (median practice coverage 99.98%).
+score was available for almost every patient (median practice coverage 99.98%). Of the 6,325 practices in the GP registration file, 58 have no QOF diabetes register, and 19 of the remaining 6,267 fall below the size thresholds or have no deprivation score. The 12 practices with under 95% IMD coverage are kept, with deprivation scores based on the patients who matched an LSOA. Crude diabetes prevalence across the included practices is 7.7%.
 
 | Deprivation quintile | Practices | Crude diabetes prevalence (aged 17+) |
 |---|---|---|
@@ -165,6 +159,7 @@ score was available for almost every patient (median practice coverage 99.98%).
 | 3 | 1,250 | 7.63% |
 | 4 | 1,249 | 7.23% |
 | 5 (least deprived) | 1,250 | 6.42% |
+Quintiles here are cut in pandas on practice rank and cover every GP-file practice that meets the inclusion rules. Part 2 uses SQL NTILE on practices that also have diabetes prescribing data, so group sizes and a few memberships differ slightly.
 
 Practice-level rank correlation between deprivation and prevalence is 0.51 (Spearman). These are **crude** rates:
 the data have no age breakdown, and deprived areas are not simply older or younger, so the gradient mixes real
@@ -173,9 +168,7 @@ differences with age structure. Treat it as the context for the prescribing anal
 ![Prevalence vs deprivation](outputs/figures/00_prevalence_vs_deprivation.png)
 
 ### Part 2: newer-drug prescribing (real data, April 2023 to March 2024)
-**Sample.** 6,248 GP practices in 42 ICBs, which account for 99.5% of diabetes prescribing in the data. Organisations
-with no GP registration record (1,590, mostly non-GP prescribers and closed practices) carry 0.4% of items; 54 practices
-had no QOF diabetes register, 17 had under 1,000 patients and 1 had fewer than 20 people with diabetes.
+**Sample.** Of the 6,325 practices in the GP registration file, 5 have no diabetes prescribing in the data. Of the other 6,320, 54 had no QOF diabetes register, 17 had under 1,000 patients and 1 had a diabetes register under 20 (each counted once, in that order); none lacked a deprivation score. That leaves 6,248 GP practices in 42 ICBs, which account for 99.5% of diabetes prescribing in the data. A further 1,590 prescribing organisations with no GP registration record (mostly non-GP prescribers and closed practices) carry 0.4% of items.
 
 **By deprivation quintile** (1 = most deprived; [`outputs/results/by_deprivation_quintile.csv`](outputs/results/by_deprivation_quintile.csv)):
 
@@ -215,10 +208,9 @@ these data cannot say which. The full list is in [`outputs/results/funnel_flags.
 
 ![Funnel plot](outputs/figures/02_funnel_plot.png)
 
-**Over time.** The newer-drug share rose in every quintile: from 23.0% to 25.8% in the most deprived fifth and from
-25.3% to 29.2% in the least deprived, so the gap widened from 2.3 to 3.4 percentage points.
+**Over time.** The newer-drug share rose in every quintile: from 23.0% in April 2023 to 25.8% in March 2024 in the most deprived fifth and from 25.3% to 29.2% in the least deprived. Comparing those single months, the gap widened from 2.3 to 3.4 percentage points. (The 2.8-point gap in the quintile table pools all twelve months.)
 
-**Geography.** ICB averages range from 19.6% (South East London) to 30.3% (Hampshire and Isle of Wight), a spread of
+**Geography.** ICB averages (total newer-drug items divided by total non-insulin items across the ICB's included practices, so larger practices count for more) range from 19.6% (South East London) to 30.3% (Hampshire and Isle of Wight), a spread of
 10.7 points. By NHS region, London is lowest (22.6%) and the South East highest (28.2%). These are unadjusted descriptions;
 they are not the adjusted estimates above, and the data cannot say why ICBs differ.
 
@@ -237,24 +229,16 @@ Screenshots of each page are below. Report file: [`powerbi/diabetes_prescribing_
 ## What this means for decision-makers
 Intended readers: ICB medicines-optimisation and health-inequalities teams, NHS England regional teams and primary care networks.
 
-* **The scale is material, not trivial.** If the most deprived fifth of practices had the newer-drug share of the least deprived fifth, they
-  would have issued about **308,000 more newer-drug items** in the year (11.5% more than they did, 2.3% of the national total). If the 17 ICBs
-  below the England share had matched it, the difference would be about **581,000 items** (4.3% of the national total). These are
+* **The scale is material, not trivial.** If the most deprived fifth of practices had the newer-drug share of the least deprived fifth, they would have issued about **308,000 more newer-drug items** in the year (11.5% more than they did, 2.3% of all newer-drug items nationally). If the 17 ICBs below the England share had matched it, the difference would be about **581,000 items** (4.3% of all newer-drug items nationally). These are
   *illustrations of scale*, not targets: whether higher use would be clinically appropriate cannot be judged from these data.
-* **Geography is a large source of difference.** The ICB scenario (about 581,000 items) is roughly twice the size of the deprivation scenario
-  (about 308,000), but the two are not like-for-like: one lifts 17 ICBs to the England average, the other lifts one fifth of practices to the
-  level of another fifth, and the ICB figures are unadjusted, so they partly reflect differences in deprivation and population mix (London ICBs are
-  both highly deprived and low). Three London
-  ICBs (North East London, South East London, South West London) account for about 39% of the ICB gap, followed by North East and North Cumbria
-  and West Yorkshire.
-* **Variation is not confined to a few hotspots.** Six ICBs hold 47% of the 137 outlier practices, but 34 of 42 ICBs have at least one. About 84%
-  of practice-level variation lies *within* ICBs, so an ICB-wide message alone would not reach most of it. Practice-level peer comparison is the
-  natural tool.
-* **The gap is growing.** The gap between the least and most deprived fifths widened from 2.3 to 3.4 percentage points in twelve months,
-  because uptake rose faster where deprivation was lowest. Monitoring it monthly would show whether it narrows.
+* **Geography is a large source of difference.** The ICB scenario (about 581,000 items) is roughly twice the size of the deprivation scenario (about 308,000), but the two are not like-for-like: one lifts 17 ICBs to the England average, the other lifts one fifth of practices to the level of another fifth, and the ICB figures are unadjusted, so they partly reflect differences in deprivation and population mix (London ICBs are both highly deprived and low). The largest single gaps are North East London (about 107,000 items), South East London (84,000), North East and North Cumbria (70,000) and West Yorkshire (59,000). Together, North East London, South East London and South West London account for about 39% of the ICB gap.
+* **Variation is not confined to a few hotspots.** Six ICBs hold 47% of the 137 outlier practices, but 34 of 42 ICBs have at least one. About 84% of practice-level variation lies *within* ICBs (after adjustment), so an ICB-wide message alone would not reach most of it. Practice-level peer comparison is the natural tool.
+* **The gap is growing.** The gap between the least and most deprived fifths widened from 2.3 to 3.4 percentage points in twelve months, because uptake rose faster where deprivation was lowest. Monitoring it monthly would show whether it narrows.
 * **Higher volume per patient in deprived areas** (16.9 versus 14.2 items per patient on the register) could reflect more complex disease,
   more drugs per person, or differences in how patients are coded or reviewed. These data cannot say which. It is worth understanding before reading
   anything into the newer-drug gap.
+
+The scenario figures in this section are produced by python -m src.scenarios.
 
 **Suggested uses.** Use the funnel plot to prioritise which practices or ICBs to look at first, never to judge them. Before any review, add
 clinical eligibility information (kidney function, cardiovascular disease, BMI) that is not in these data. For the ICB clusters, check local
@@ -265,7 +249,7 @@ formularies, guidance, shared-care pathways with specialist clinics, and supply 
   disease, heart failure and obesity. Adding them to the models would test how much of the pattern reflects eligibility. This is the most
   valuable next step.
 * **Add age structure.** NHS England publishes registered patients by age; age-standardising prevalence would improve the context analysis.
-* **Sensitivity checks.** Repeat the analysis with SGLT2 inhibitors alone, with different practice-size thresholds, and with a longer period.
+* **Sensitivity checks.** Repeat the analysis with SGLT2 inhibitors alone, with different practice-size thresholds, without the 12 practices with under 95% IMD coverage, and with a longer period. Repeat the volume model without the prevalence term (see Limitations), and try an additive random-effects version of the funnel plot.
 * **Costs.** NHSBSA changed its actual-cost methodology in April 2024, so a cost analysis needs a later window and care with comparisons.
 * **Ethnicity** is not available at practice level in these sources, which limits what can be said about inequalities beyond deprivation.
 
@@ -284,7 +268,14 @@ formularies, guidance, shared-care pathways with specialist clinics, and supply 
   includes hospital prescribing only when issued under cost-centre codes. NHSBSA also notes that BNF and SNOMED codes for a product can
   change over time, and tags the dataset as experimental. Items, not costs, are analysed, so the April 2024 change to actual-cost
   methodology does not affect these results.
-* **Denominators.** List size comes from a single LSOA extract and QOF uses a 17+ denominator; both are approximations.
+* **Denominators.** List size comes from a single LSOA extract (January 2024, all ages) and QOF uses a 17+ denominator; the QOF list is a median of 82% of the LSOA list size, so crude prevalence and items per register patient are approximations.
+* **Type of diabetes.** The QOF register covers all diabetes in people aged 17 and over and does not separate type 1 from type 2, so the denominator includes people with type 1 diabetes.
+* **Timing.** List size and deprivation come from the January 2024 registration snapshot, while QOF reflects the 2023-24 year. Items per register patient count items for all ages against a 17+ register.
+* **Age of the deprivation data.** IMD 2019 is based on indicators from before 2019, so it may not reflect deprivation in 2023-24, especially in areas that have changed quickly.
+* **Items are not independent.** The funnel plot and overdispersion factor treat each prescription item as an independent event, but one patient receives many items over the year. The factor of 89 therefore reflects both real practice differences and repeat prescribing, so "varies more than chance" is a relative measure, not an exact one. The regression standard errors are clustered by ICB, which partly allows for this.
+* **ICC.** It is calculated on each practice's raw newer-drug share, which includes some chance variation, especially for small practices. Given the size of the overdispersion, the effect is probably small and would make the ICC slightly low. It is also unweighted, so every practice counts equally.
+* **Shared denominator in the volume model.** Items per register patient and diabetes prevalence both depend on the diabetes register, so they are mechanically linked, and the volume model adjusts for prevalence. Treat the +4.3% as approximate.
+* **Insulin and GLP-1 combinations.** Xultophy (insulin degludec with liraglutide, 17,837 items, about 0.1% of newer-drug items) is in BNF section 0601023 and counts as a newer drug. Suliqua (insulin glargine with lixisenatide, 1,095 items) is in the insulin section and is excluded from the non-insulin items. The two are treated differently; the volumes are small.
 * **Practice changes.** Mergers and closures mean some practices lack denominators and are excluded.
 * **Geography.** IMD 2019 covers England only and uses 2011 LSOAs.
 
@@ -311,13 +302,13 @@ the Open Government Licence v3.0 unless otherwise stated; Crown copyright). This
 and aggregated results only; it does not redistribute the source files. This project follows the dataset page's caveats, citation wording and the Open Government Licence.
 
 ## Issues and fixes
-The problems found while building this project (a retired dataset, mismatched area codes, a classifier bug caught by a data check, an unreliable model, failed downloads) are written up in [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md).
+The problems found while building this project (a retired dataset, mismatched area codes, a classifier bug caught by a data check, badly designed checks, an unreliable model, failed downloads, and a licence-attribution correction) are written up in [`docs/ISSUES_AND_FIXES.md`](docs/ISSUES_AND_FIXES.md).
 
 ## Repo layout
 ```
 sql/        01_schema, 02_staging, 03_marts
-src/        ingest, build_marts, checks, profile_reference, analysis, stats, export_for_powerbi, download_epd, make_demo_data
-tests/      unit tests for the funnel statistics
+src/        config, db, colmap, ingest, build_marts, checks, profile_reference, analysis, scenarios, stats, export_for_powerbi, make_dashboard_files, download_epd, make_demo_data
+tests/      unit tests for the funnel and ICC statistics
 LICENSE     MIT licence for the code
 powerbi/    the Power BI report (.pbix), build notes with DAX, and theme
 docs/       data sources, issues found and how they were fixed, dashboard screenshots
