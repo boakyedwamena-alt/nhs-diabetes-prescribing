@@ -1,5 +1,5 @@
 -- Marts layer: analysis-ready tables, also the tables Power BI reads.
--- %(min_list)s and %(min_register)s are bound by src/build_marts.py. Do not put a literal % in this file.
+-- min_list and min_register are bound as named parameters by src/build_marts.py. Avoid the percent sign in this file.
 DROP SCHEMA IF EXISTS marts CASCADE;
 CREATE SCHEMA marts;
 
