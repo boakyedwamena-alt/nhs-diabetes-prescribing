@@ -64,7 +64,7 @@ five times and ignored a resume request once.
 **Fix.** Read the page (checked 22 October 2026) and updated the README (Attribution and licence), the data-source notes and the dashboard footer text. A check of the other three sources found that NHS England Digital's terms require their own attribution statement ("Contains information from NHS England,
 licenced under the current version of the Open Government Licence") when their data is combined or adapted. It was added to the README and the dashboard footer.
 The IMD page is under the Open Government Licence v3.0 with Crown copyright and needs no extra wording.
-**Takeaway.** Licence conditions are taken from the source page and quoted exactly, not from memory.
+**Takeaway.** Licence conditions are read from the source page and quoted exactly, not assumed.
 
 ## Design decisions worth knowing
 * Only 3 of the 16 files downloaded for QOF, GP and IMD are used; the rest are other QOF tables or male/female splits.
