@@ -256,31 +256,31 @@ formularies, guidance, shared-care pathways with specialist clinics, and supply 
 * **Ethnicity** is not available at practice level in these sources, which limits what can be said about inequalities beyond deprivation.
 
 ## Limitations
+
+**Study design**
 * **Ecological and observational.** Practice-level patterns do not describe individual patients, and association is not cause.
-* **Prescribing is not need.** Eligibility for newer drugs depends on kidney function, cardiovascular disease, BMI and
-  other factors that are not in these data. Differences may reflect case mix.
-* **Supply and policy effects.** GLP-1 shortages and changing national guidance during 2023-24 affect prescribing
-  independently of practice behaviour. The window is one year, so these results describe that year only.
-* **No age adjustment.** The data have no age breakdown, so prevalence is crude and deprivation may partly stand in for age structure.
-* **Off-label and weight-loss use.** During the 2023-24 GLP-1 shortage some diabetes-licensed GLP-1 and GIP products were prescribed off-label for
-  weight loss. The data cannot separate these items from use in diabetes, so the GLP-1/GIP share may be overstated in some practices.
-* **Guidance changed after the study window.** NICE issued a medicines update to NG28 in February 2026. These results describe prescribing in 2023-24 under the February 2022 drug-treatment recommendations and should not be read as a comparison with current guidance.
+* **Prescribing is not need.** Eligibility for newer drugs depends on kidney function, cardiovascular disease, BMI and other factors that are not in these data. Differences may reflect case mix.
 * **Newer drugs are not always better drugs for every patient.** The share is a measure of uptake, not of appropriateness.
 * **Funnel outliers are unusual, not "bad".** Coding, shared-care arrangements and specialist clinics can explain them.
-* **Scope of the prescribing data.** The EPD excludes medicines supplied under Patient Group Directions and dental prescribing, and
-  includes hospital prescribing only when issued under cost-centre codes. NHSBSA also notes that BNF and SNOMED codes for a product can
-  change over time, and tags the dataset as experimental. Items, not costs, are analysed, so the April 2024 change to actual-cost
-  methodology does not affect these results.
-* **Denominators.** List size comes from a single LSOA extract (January 2024, all ages) and QOF uses a 17+ denominator; the QOF list is a median of 82% of the LSOA list size, so crude prevalence and items per register patient are approximations.
+* **Supply effects.** GLP-1 shortages during 2023-24 affect prescribing independently of practice behaviour. The window is one year, so these results describe that year only.
+* **Guidance changed after the study window.** NICE issued a medicines update to NG28 in February 2026. These results describe prescribing in 2023-24 under the February 2022 drug-treatment recommendations and should not be read as a comparison with current guidance.
+* **Off-label and weight-loss use.** During the 2023-24 GLP-1 shortage some diabetes-licensed GLP-1 and GIP products may have been prescribed off-label for weight loss. The data cannot separate these items from use in diabetes, so the GLP-1/GIP share may be overstated in some practices.
+
+**Data and definitions**
+* **Items are not patients.** The outcome counts prescription items, so the share reflects how often and for how long items are issued as well as how many people take each drug.
+* **Denominators and timing.** List size and deprivation come from a single LSOA extract (January 2024, all ages), while QOF reflects the 2023-24 year and uses a 17+ denominator. The QOF list is a median of about 82% of the LSOA list size, so crude prevalence and items per register patient are approximations.
 * **Type of diabetes.** The QOF register covers all diabetes in people aged 17 and over and does not separate type 1 from type 2, so the denominator includes people with type 1 diabetes.
-* **Timing.** List size and deprivation come from the January 2024 registration snapshot, while QOF reflects the 2023-24 year. Items per register patient count items for all ages against a 17+ register.
-* **Age of the deprivation data.** IMD 2019 is based on indicators from before 2019, so it may not reflect deprivation in 2023-24, especially in areas that have changed quickly.
-* **Items are not independent.** The funnel plot and overdispersion factor treat each prescription item as an independent event, but one patient receives many items over the year. The factor of 89 therefore reflects both real practice differences and repeat prescribing, so "varies more than chance" is a relative measure, not an exact one. The regression standard errors are clustered by ICB, which partly allows for this.
-* **ICC.** It is calculated on each practice's raw newer-drug share, which includes some chance variation, especially for small practices. Given the size of the overdispersion, the effect is probably small and would make the ICC slightly low. It is also unweighted, so every practice counts equally.
-* **Shared denominator in the volume model.** Items per register patient and diabetes prevalence both depend on the diabetes register, so they are mechanically linked, and the volume model adjusts for prevalence. Treat the +4.3% as approximate.
+* **No age adjustment.** The data have no age breakdown, so prevalence is crude and deprivation may partly stand in for age structure.
+* **Age of the deprivation data.** IMD 2019 is based on indicators from before 2019, so it may not reflect deprivation in 2023-24, especially in areas that have changed quickly. It covers England only and uses 2011 LSOAs.
+* **Low-coverage practices.** 12 practices have under 95% of their patients matched to an IMD score. They are kept, with scores based on the matched patients.
+* **Practice changes.** Mergers and closures mean some organisations lack denominators and are excluded (1,590 organisations, 0.4% of diabetes items).
+* **Scope of the prescribing data.** The EPD excludes medicines supplied under Patient Group Directions and dental prescribing, and includes hospital prescribing only when issued under cost-centre codes. NHSBSA also notes that BNF and SNOMED codes for a product can change over time, and tags the dataset as experimental. Items, not costs, are analysed, so the April 2024 change to actual-cost methodology does not affect these results.
 * **Insulin and GLP-1 combinations.** Xultophy (insulin degludec with liraglutide, 17,837 items, about 0.1% of newer-drug items) is in BNF section 0601023 and counts as a newer drug. Suliqua (insulin glargine with lixisenatide, 1,095 items) is in the insulin section and is excluded from the non-insulin items. The two are treated differently; the volumes are small.
-* **Practice changes.** Mergers and closures mean some practices lack denominators and are excluded.
-* **Geography.** IMD 2019 covers England only and uses 2011 LSOAs.
+
+**Statistics**
+* **Items are not independent.** The funnel plot and overdispersion factor treat each prescription item as an independent event, but one patient receives many items over the year. The factor of 89 therefore reflects both real practice differences and repeat prescribing, so "varies more than chance" is a relative measure, not an exact one. The regression standard errors are clustered by ICB, which partly allows for this.
+* **ICC.** It is calculated on each practice's raw newer-drug share, which includes some chance variation, especially for small practices. Given the size of the overdispersion, the effect is probably small and would make the ICC slightly low. It is also unweighted, so every practice counts equally, and the adjusted version does not adjust for NHS region, so it includes differences between regions.
+* **Shared denominator in the volume model.** Items per register patient and diabetes prevalence both depend on the diabetes register, so they are mechanically linked, and the volume model adjusts for prevalence. Treat the +4.3% as approximate.
 
 ## Attribution and licence
 **Code:** MIT Licence (see [`LICENSE`](LICENSE)). The data, and results derived from them, carry the attributions below.
