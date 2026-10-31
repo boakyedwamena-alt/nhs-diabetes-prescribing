@@ -18,7 +18,7 @@
 * Overall prescribing volume went the other way: **16.9 diabetes items per patient on the register in the most deprived
   fifth versus 14.2 in the least deprived**.
 * Practices vary far more than chance alone would give (overdispersion factor 89, which also reflects repeat prescribing), and about **one sixth of the variation sits between ICBs** (16%, 95% CI 10% to 22%, after adjusting for deprivation, prevalence and list size; NHS region is not adjusted for), which deprivation barely changes.
-* ICB averages range from **19.6% to 30.3%** (unadjusted), against a 2.8-point gap between deprivation fifths. This compares the two most extreme of 42 ICBs with the gap between group averages, so it is not like-for-like; the adjusted ICC above is the better measure of variation between ICBs.
+* ICB averages range from **19.6% to 30.3%** (unadjusted); the middle half of ICBs spans 23.9% to 28.0%, against a 2.8-point gap between deprivation fifths.
 * The gap between the most and least deprived fifths **widened over the year** (2.3 points in April 2023 to 3.4 in March 2024, comparing single months), because newer drugs grew faster where deprivation was lowest.
 
 ![Overview page of the Power BI dashboard: newer-drug share and items per patient by practice deprivation fifth, and the mix of non-insulin diabetes drugs](docs/dashboard_overview.png)
@@ -27,7 +27,7 @@
 ## Key terms
 | Term | Meaning here |
 |---|---|
-| **Newer drugs** | SGLT2 inhibitors and GLP-1 / GIP agonists, two classes of diabetes medicine recommended for people with cardiovascular, kidney or obesity-related risk |
+| **Newer drugs** | SGLT2 inhibitors and GLP-1 / GIP agonists, two classes of diabetes medicine that NICE guidance targeted at people with cardiovascular, kidney or obesity-related needs (see "Why this matters") |
 | **Newer-drug share** | Newer-drug items as a percentage of all non-insulin diabetes items a practice prescribed |
 | **Diabetes items per patient** | Diabetes prescription items (insulins and antidiabetic drugs, BNF 060101 and 060102) issued in 12 months, divided by the number of patients on the practice's diabetes register. An overall measure of prescribing volume, separate from the drug mix |
 | **Diabetes register** | The patients a practice has recorded as having diabetes, from the Quality and Outcomes Framework (QOF) prevalence data. It is smaller than the practice list |
@@ -119,7 +119,7 @@ To also run the analysis and export on the demo data, send the output to separat
 
 | | Demo analysis and export |
 |---|---|
-| macOS / Linux | `make demo` does all of step 2 including this, or: `OUTPUT_DIR=outputs/demo EXPORT_DIR=data/demo/exports python -m src.analysis` then the same prefix before `python -m src.export_for_powerbi` |
+| macOS / Linux | `make demo` runs step 2 and this analysis and export (run `make test` for the unit tests), or: `OUTPUT_DIR=outputs/demo EXPORT_DIR=data/demo/exports python -m src.analysis` then the same prefix before `python -m src.export_for_powerbi` |
 | Windows, PowerShell | `$env:OUTPUT_DIR="outputs/demo"; $env:EXPORT_DIR="data/demo/exports"`, then `python -m src.analysis` and `python -m src.export_for_powerbi`, then `Remove-Item Env:OUTPUT_DIR, Env:EXPORT_DIR` |
 | Windows, Command Prompt | `set OUTPUT_DIR=outputs/demo` and `set EXPORT_DIR=data/demo/exports`, then `python -m src.analysis` and `python -m src.export_for_powerbi`, then `set OUTPUT_DIR=` and `set EXPORT_DIR=` |
 
@@ -196,7 +196,7 @@ models, which assume a constant effect, summarise it with one number.
 | Share of practice-level variance in newer-drug share lying between ICBs | 17.5% (95% CI 11.6% to 23.5%) unadjusted; 16.1% (10.0% to 21.8%) after adjusting for deprivation, prevalence and list size |
 
 Across the 31.8-point gap in mean IMD score between the most and least deprived fifths (41.6 against 9.8, from the Part 1 table), the odds ratio compounds to
-about 0.91 (my arithmetic from the per-10-point estimate, not a separate model). The volume result means practices in
+about 0.91 (calculated from the per-10-point estimate, not a separate model). The volume result means practices in
 deprived areas issued more diabetes items per patient with diabetes, which could reflect more complex disease or more
 drugs per person, and is not evidence of better or worse care.
 
@@ -209,13 +209,13 @@ these data cannot say which. Clusters are not always one-directional: West Yorks
 
 ![Funnel plot](outputs/figures/02_funnel_plot.png)
 
-**Over time.** The newer-drug share rose in every quintile: from 23.0% in April 2023 to 25.8% in March 2024 in the most deprived fifth and from 25.3% to 29.2% in the least deprived. Comparing those single months, the gap widened from 2.3 to 3.4 percentage points. (The 2.8-point gap in the quintile table pools all twelve months.)
+**Over time.** The newer-drug share rose in every quintile: from 23.0% in April 2023 to 25.8% in March 2024 in the most deprived fifth and from 25.3% to 29.2% in the least deprived. Comparing those single months, the gap widened from 2.3 to 3.4 percentage points. (The 2.8-point gap in the quintile table pools all twelve months).
+
+![Trend by quintile](outputs/figures/03_trend_by_quintile.png)
 
 **Geography.** ICB averages (total newer-drug items divided by total non-insulin items across the ICB's included practices, so larger practices count for more) range from 19.6% (South East London) to 30.3% (Hampshire and Isle of Wight), a spread of
 10.7 points. By NHS region, London is lowest (22.6%) and the South East highest (28.2%). These are unadjusted descriptions;
 they are not the adjusted estimates above, and the data cannot say why ICBs differ.
-
-![Trend by quintile](outputs/figures/03_trend_by_quintile.png)
 
 ## Dashboard
 A five-page Power BI report (`powerbi/`, build notes with DAX in [`powerbi/README.md`](powerbi/README.md)) lets readers explore the results by region and ICB.
@@ -232,9 +232,9 @@ Intended readers: ICB medicines-optimisation and health-inequalities teams, NHS 
 
 * **The scale is material, not trivial.** If the most deprived fifth of practices had the newer-drug share of the least deprived fifth, they would have issued about **308,000 more newer-drug items** in the year (11.5% more than they did, 2.3% of all newer-drug items nationally). If the 17 ICBs below the England share had matched it, the difference would be about **581,000 items** (4.3% of all newer-drug items nationally). These are
   *illustrations of scale*, not targets: whether higher use would be clinically appropriate cannot be judged from these data.
-* **Geography is a large source of difference.** The ICB scenario (about 581,000 items) is roughly twice the size of the deprivation scenario (about 308,000), but the two are not like-for-like: one lifts 17 ICBs to the England average, the other lifts one fifth of practices to the level of another fifth, and the ICB figures are unadjusted, so they partly reflect differences in deprivation and population mix (London ICBs are both highly deprived and low). The largest single gaps are North East London (about 107,000 items), South East London (84,000), North East and North Cumbria (70,000) and West Yorkshire (59,000). Together, North East London, South East London and South West London account for about 39% of the ICB gap.
+* **Geography is a large source of difference.** The ICB scenario (about 581,000 items) is roughly twice the size of the deprivation scenario (about 308,000), but the two are not like-for-like: one lifts 17 ICBs to the England average, the other lifts one fifth of practices to the level of another fifth, and the ICB figures are unadjusted, so they partly reflect differences in deprivation and population mix (across the 42 ICBs, mean deprivation and newer-drug share are moderately correlated, Spearman -0.49). Deprivation does not explain everything: London ICBs are low whether they are among the more deprived (North East London ranks 9th most deprived of 42, South East London 13th) or among the less deprived (South West London ranks 36th). The largest single gaps are North East London (about 107,000 items), South East London (84,000), North East and North Cumbria (70,000) and West Yorkshire (59,000). Together, North East London, South East London and South West London account for about 39% of the ICB gap.
 * **Variation is not confined to a few hotspots.** Six ICBs hold 47% of the 137 outlier practices, but 34 of 42 ICBs have at least one. About 84% of practice-level variation lies *within* ICBs (after adjustment), so an ICB-wide message alone would not reach most of it. Practice-level peer comparison is the natural tool.
-* **The gap is growing.** The gap between the least and most deprived fifths widened from 2.3 to 3.4 percentage points in twelve months, because uptake rose faster where deprivation was lowest. Monitoring it monthly would show whether it narrows.
+* **The gap is growing.** The gap between the least and most deprived fifths widened from 2.3 to 3.4 percentage points between April 2023 and March 2024, because uptake rose faster where deprivation was lowest. Monitoring it monthly would show whether it narrows.
 * **Higher volume per patient in deprived areas** (16.9 versus 14.2 items per patient on the register) could reflect more complex disease,
   more drugs per person, or differences in how patients are coded or reviewed. These data cannot say which. It is worth understanding before reading
   anything into the newer-drug gap.
