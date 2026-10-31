@@ -209,7 +209,7 @@ these data cannot say which. Clusters are not always one-directional: West Yorks
 
 ![Funnel plot](outputs/figures/02_funnel_plot.png)
 
-**Over time.** The newer-drug share rose in every quintile: from 23.0% in April 2023 to 25.8% in March 2024 in the most deprived fifth and from 25.3% to 29.2% in the least deprived. Comparing those single months, the gap widened from 2.3 to 3.4 percentage points. (The 2.8-point gap in the quintile table pools all twelve months).
+**Over time.** The newer-drug share rose in every quintile: from 23.0% in April 2023 to 25.8% in March 2024 in the most deprived fifth and from 25.3% to 29.2% in the least deprived. Comparing those single months, the gap widened from 2.3 to 3.4 percentage points. (The 2.8-point gap in the quintile table pools all twelve months.)
 
 ![Trend by quintile](outputs/figures/03_trend_by_quintile.png)
 
