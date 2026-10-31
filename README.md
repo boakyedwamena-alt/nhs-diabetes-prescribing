@@ -2,10 +2,9 @@
 
 [![CI](https://github.com/boakyedwamena-alt/nhs-diabetes-prescribing/actions/workflows/ci.yml/badge.svg)](https://github.com/boakyedwamena-alt/nhs-diabetes-prescribing/actions/workflows/ci.yml)
 
-**Question:** Does the prescribing of newer diabetes drugs (SGLT2 inhibitors and GLP-1 / GIP agonists) vary across
-GP practices and Integrated Care Boards (ICBs) in ways that practice deprivation and diabetes prevalence do not explain?
+**Question:** Is the share of non-insulin diabetes prescribing that is newer drugs (SGLT2 inhibitors and GLP-1 / GIP agonists) lower in more deprived GP practices in England, and how much does it vary between practices and Integrated Care Boards (ICBs) once deprivation, diabetes prevalence and practice size are taken into account?
 
-**At a glance:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs (24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. Differences between areas (ICB averages from 19.6% to 30.3%, unadjusted) and between individual practices were larger than that deprivation gap, although extremes and group averages are not directly comparable. The gap widened over the year (2.3 points in April 2023 to 3.4 in March 2024). These are practice-level patterns from public data. They do not show that any patient received worse care.
+**At a glance:** in 2023-24, GP practices in more deprived areas prescribed a slightly smaller share of the newer diabetes drugs (24.3% against 27.1% in the least deprived practices), although they issued more diabetes items per patient overall. Variation between practices was much larger than that gap: the middle half of practices ranged from 21% to 29%, about as widely within every deprivation fifth as overall. ICB averages ranged from 19.6% to 30.3% (unadjusted; the middle half of ICBs from 24% to 28%), and about one sixth of the practice-level variation sat between ICBs. The deprivation gap widened over the year (2.3 points in April 2023 to 3.4 in March 2024). These are practice-level patterns from public data. They do not show that any patient received worse care.
 
 `PostgreSQL` `Python` `statsmodels` `Power BI` `GitHub Actions`
 
@@ -201,7 +200,7 @@ about 0.91 (my arithmetic from the per-10-point estimate, not a separate model).
 deprived areas issued more diabetes items per patient with diabetes, which could reflect more complex disease or more
 drugs per person, and is not evidence of better or worse care.
 
-**Practice variation.** A funnel plot with overdispersion-adjusted limits (factor 89.0) flags **137 practices (2.2%)**
+**Practice variation.** The middle half of practices (25th to 75th percentile of raw practice shares, which include some chance variation) had a newer-drug share between 21.2% and 29.2%, a spread of 8.0 points, and the spread within each deprivation fifth was similar (7.6 to 8.2 points). The middle half of ICBs ranged from 23.9% to 28.0%. A funnel plot with overdispersion-adjusted limits (factor 89.0) flags **137 practices (2.2%)**
 outside the 99.8% limits: 83 above and 54 below the national share. Practices are unusual in clusters rather than at random:
 high outliers are concentrated in Mid and South Essex (9), Hampshire and Isle of Wight (8), Kent and Medway (6) and
 Lancashire and South Cumbria (6); low outliers in West Yorkshire (14), North East London (14), North East and North Cumbria (7)
