@@ -59,9 +59,8 @@ five times and ignored a resume request once.
 * **`make` is not available on Windows.** The README lists plain `python -m ...` commands for each step.
 
 ## 8. Licence and citation conditions
-**Problem.** I planned the attribution as "NHSBSA Copyright 2023-24" from memory. NHSBSA's dataset page requires the exact statement
-"NHSBSA Copyright 2025" and a specific citation format, and says omitting the statement breaches the licence. The dashboard footer also
-lacked it.
+**Problem.** I drafted the attribution as "NHSBSA Copyright 2023-24" without checking the dataset page. NHSBSA's dataset page requires the exact statement
+"NHSBSA Copyright 2025" and a specific citation format, and says omitting the statement breaches the licence. The dashboard footer also lacked it.
 **Fix.** Read the page (checked 22 October 2026) and updated the README (Attribution and licence), the data-source notes and the dashboard footer text. A check of the other three sources found that NHS England Digital's terms require their own attribution statement ("Contains information from NHS England,
 licenced under the current version of the Open Government Licence") when their data is combined or adapted. It was added to the README and the dashboard footer.
 The IMD page is under the Open Government Licence v3.0 with Crown copyright and needs no extra wording.
