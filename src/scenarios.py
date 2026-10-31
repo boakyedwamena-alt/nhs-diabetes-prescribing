@@ -28,3 +28,10 @@ out = flagged[flagged.funnel_flag.str.contains("99.8")]
 n_by_icb = out.groupby("icb_code").size().sort_values(ascending=False)
 print(f"{len(out)} outliers; top 6 ICBs hold {100*n_by_icb.head(6).sum()/len(out):.0f}%; "
       f"{len(n_by_icb)} of {df.icb_code.nunique()} ICBs have at least one")
+
+s = df.newer_share * 100
+q25, q75 = s.quantile([.25, .75])
+print(f"Practices: middle half {q25:.1f}% to {q75:.1f}% (spread {q75 - q25:.1f} points)")
+print(df.groupby("imd_quintile").newer_share.apply(lambda x: 100 * (x.quantile(.75) - x.quantile(.25))).round(1).to_dict())
+i25, i75 = (icb.share * 100).quantile([.25, .75])
+print(f"ICBs: middle half {i25:.1f}% to {i75:.1f}%")
