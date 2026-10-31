@@ -240,7 +240,7 @@ Intended readers: ICB medicines-optimisation and health-inequalities teams, NHS 
   more drugs per person, or differences in how patients are coded or reviewed. These data cannot say which. It is worth understanding before reading
   anything into the newer-drug gap.
 
-The scenario figures in this section are produced by python -m src.scenarios.
+The scenario figures in this section are produced by `python -m src.scenarios`.
 
 **Suggested uses.** Use the funnel plot to prioritise which practices or ICBs to look at first, never to judge them. Before any review, add
 clinical eligibility information (kidney function, cardiovascular disease, BMI) that is not in these data. For the ICB clusters, check local
