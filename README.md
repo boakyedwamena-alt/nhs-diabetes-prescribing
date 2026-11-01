@@ -148,25 +148,27 @@ building this and how they were solved. Common ones: activate the virtual enviro
 ## Results
 
 ### Part 1: deprivation and diabetes prevalence (real data, QOF 2023-24)
-Run with `make profile`, or on any system `python -m src.ingest --source data/raw --reference-only` followed by `python -m src.profile_reference`. After excluding practices with fewer than 1,000 registered patients, fewer than 20 people on
-the diabetes register, or no QOF record, **6,248 of 6,325 practices** are included. The patient-weighted deprivation
-score was available for almost every patient (median practice coverage 99.98%). Of the 6,325 practices in the GP registration file, 58 have no QOF diabetes register, and 19 of the remaining 6,267 fall below the size thresholds or have no deprivation score. The 12 practices with under 95% IMD coverage are kept, with deprivation scores based on the patients who matched an LSOA. Crude diabetes prevalence across the included practices is 7.7%.
+This part uses only the reference data (GP registrations, deprivation and QOF), before any prescribing is added. Run it with `make profile`, or on any system `python -m src.ingest --source data/raw --reference-only` followed by `python -m src.profile_reference`.
 
-| Deprivation quintile | Practices | Crude diabetes prevalence (aged 17+) |
-|---|---|---|
-| 1 (most deprived) | 1,250 | 9.25% |
-| 2 | 1,249 | 8.22% |
-| 3 | 1,250 | 7.63% |
-| 4 | 1,249 | 7.23% |
-| 5 (least deprived) | 1,250 | 6.42% |
+**Sample.** **6,248 of the 6,325 practices** in the GP registration file are included. 58 have no QOF diabetes register, and 19 of the remaining 6,267 have fewer than 1,000 registered patients, fewer than 20 people on the diabetes register, or no deprivation score. The patient-weighted deprivation score was available for almost every patient (median practice coverage 99.98%). 12 practices have under 95% coverage; they are kept, with scores based on the patients who matched an LSOA. Across the included practices, crude diabetes prevalence is 7.7%.
 
-Quintiles here are cut in pandas on practice rank and cover every GP-file practice that meets the inclusion rules. Part 2 uses SQL NTILE on practices that also have diabetes prescribing data, so group sizes and a few memberships differ slightly.
+**By deprivation quintile** (1 = most deprived; [`outputs/results/prevalence_by_deprivation_quintile.csv`](outputs/results/prevalence_by_deprivation_quintile.csv)):
 
-Practice-level rank correlation between deprivation and prevalence is 0.51 (Spearman). These are **crude** rates:
-the data have no age breakdown, and deprived areas are not simply older or younger, so the gradient mixes real
-differences with age structure. Treat it as the context for the prescribing analysis, not as a standalone finding.
+| Deprivation quintile | Practices | Mean IMD score | Crude diabetes prevalence (aged 17+) |
+|---|---|---|---|
+| 1 (most deprived) | 1,250 | 41.6 | 9.25% |
+| 2 | 1,249 | 28.5 | 8.22% |
+| 3 | 1,250 | 21.4 | 7.63% |
+| 4 | 1,249 | 15.3 | 7.23% |
+| 5 (least deprived) | 1,250 | 9.8 | 6.42% |
 
-![Prevalence vs deprivation](outputs/figures/00_prevalence_vs_deprivation.png)
+Mean IMD score is the average of practices' patient-weighted IMD 2019 scores in each fifth (higher means more deprived). Quintiles here are cut in pandas on practice rank and cover every GP-file practice that meets the inclusion rules. Part 2 uses SQL NTILE on practices that also have diabetes prescribing data, so group sizes and a few memberships differ slightly.
+
+Practice-level rank correlation between deprivation and prevalence is 0.51 (Spearman). These are **crude** rates: the data have no age breakdown, and deprived areas are not simply older or younger, so the gradient mixes real differences with age structure. Treat it as the context for the prescribing analysis, not as a standalone finding.
+
+![Scatter plot of crude diabetes prevalence against practice deprivation, with a rising straight-line fit from about 6% in the least deprived practices to about 12% in the most deprived](outputs/figures/00_prevalence_vs_deprivation.png)
+
+*Red line: straight-line fit. Prevalence is crude (no age adjustment), and each dot is one practice.*
 
 ### Part 2: newer-drug prescribing (real data, April 2023 to March 2024)
 **Sample.** Of the 6,325 practices in the GP registration file, 5 have no diabetes prescribing in the data. Of the other 6,320, 54 had no QOF diabetes register, 17 had under 1,000 patients and 1 had a diabetes register under 20 (each counted once, in that order); none lacked a deprivation score. That leaves 6,248 GP practices in 42 ICBs, which account for 99.5% of diabetes prescribing in the data. A further 1,590 prescribing organisations with no GP registration record (mostly non-GP prescribers and closed practices) carry 0.4% of items.
@@ -181,11 +183,10 @@ differences with age structure. Treat it as the context for the prescribing anal
 | 4 | 1,249 | 26.1% | 14.7 |
 | 5 (least deprived) | 1,249 | 27.1% | 14.2 |
 
-![Newer-drug share vs deprivation](outputs/figures/01_newer_share_vs_deprivation.png)
+![Scatter plot of newer-drug share against practice deprivation for 6,248 practices, with a trend line falling from about 27% in the least deprived practices to about 24% at an IMD score of 30, then flat; individual practices range from about 10% to 40% at any deprivation level](outputs/figures/01_newer_share_vs_deprivation.png)
+*"GLP-1" on the axis includes GIP agonists (tirzepatide), as in the rest of this README.*
 
-The smoothed trend falls from about 27% in the least deprived practices to about 24% around an IMD score of 30, then
-flattens. So the average association in the models below is driven mainly by the less-to-moderately deprived end, and the
-models, which assume a constant effect, summarise it with one number.
+The smoothed trend falls from about 27% in the least deprived practices to about 24% around an IMD score of 30, then flattens. So the average association in the models below is driven mainly by the less-to-moderately deprived end, and the models, which assume a constant effect, summarise it with one number. The trend is small relative to the spread of individual practices, which is why deprivation explains little of the practice-to-practice variation. Above an IMD score of about 55 there are few practices, so the trend there is less certain.
 
 **Models** ([`outputs/results/results.json`](outputs/results/results.json); standard errors clustered by ICB):
 
@@ -207,11 +208,15 @@ Lancashire and South Cumbria (6); low outliers in West Yorkshire (14), North Eas
 and South East London (5). That points to ICB-level or local factors such as formularies, guidance or population mix, but
 these data cannot say which. Clusters are not always one-directional: West Yorkshire has 14 low outliers and 3 high ones, which suggests wide variation between practices as well as an ICB-level effect. The full list is in [`outputs/results/funnel_flags.csv`](outputs/results/funnel_flags.csv).
 
-![Funnel plot](outputs/figures/02_funnel_plot.png)
+![Funnel plot of newer-drug share against non-insulin diabetes items for each practice, with the national share at 25.4% and practices outside the 99.8% limits in red](outputs/figures/02_funnel_plot.png)
+
+*Dashed red lines: 99.8% limits. Dotted grey lines: 95% limits. Limits allow for overdispersion (factor 89). Red points are unusual practices, not necessarily poorer care.*
 
 **Over time.** The newer-drug share rose in every quintile: from 23.0% in April 2023 to 25.8% in March 2024 in the most deprived fifth and from 25.3% to 29.2% in the least deprived. Comparing those single months, the gap widened from 2.3 to 3.4 percentage points. (The 2.8-point gap in the quintile table pools all twelve months.)
 
-![Trend by quintile](outputs/figures/03_trend_by_quintile.png)
+![Line chart of monthly newer-drug share for each deprivation fifth, April 2023 to March 2024, rising in every group from about 23% to 26% in the most deprived and from about 25% to 29% in the least deprived](outputs/figures/03_trend_by_quintile.png)
+
+*Q1 is the most deprived fifth and Q5 the least. The rise steepens in early 2024 in every group; these data cannot say why.*
 
 **Geography.** ICB averages (total newer-drug items divided by total non-insulin items across the ICB's included practices, so larger practices count for more) range from 19.6% (South East London) to 30.3% (Hampshire and Isle of Wight), a spread of
 10.7 points. By NHS region, London is lowest (22.6%) and the South East highest (28.2%). These are unadjusted descriptions;
