@@ -289,7 +289,7 @@ formularies, guidance, shared-care pathways with specialist clinics, and supply 
 ## Attribution and licence
 **Code:** MIT Licence (see [`LICENSE`](LICENSE)). The data, and results derived from them, carry the attributions below.
 
-**NHSBSA Copyright 2025.**
+**NHSBSA Copyright 2021-2026.**
 
 Contains information from NHS England, licenced under the current version of the Open Government Licence.
 
